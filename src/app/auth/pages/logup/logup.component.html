@@ -1,0 +1,77 @@
+<h1>Регистрация</h1>
+<form [formGroup]="form" (submit)="submit()">
+  <div class="form-controls">
+    <div class="form-control">
+      <label for="name">Введите имя</label>
+      <input type="text" id="name" formControlName="name" />
+      <div
+        *ngIf="form.get('name')?.touched && form.get('name')?.invalid"
+        class="validation"
+      >
+        <small *ngIf="form.get('name')?.errors?.['required']">
+          Поле имя не может быть пустым
+        </small>
+      </div>
+    </div>
+    <div class="form-control">
+      <label for="surname">Введите фамилию</label>
+      <input type="text" id="surname" formControlName="surname" />
+      <div
+        *ngIf="form.get('surname')?.touched && form.get('surname')?.invalid"
+        class="validation"
+      >
+        <small *ngIf="form.get('surname')?.errors?.['required']">
+          Поле фамилия не может быть пустым
+        </small>
+      </div>
+    </div>
+    <div class="form-control">
+      <label for="email">Введите email</label>
+      <input type="email" id="email" formControlName="email" />
+      <div
+        *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+        class="validation"
+      >
+        <small *ngIf="form.get('email')?.errors?.['required']">
+          Поле email не может быть пустым
+        </small>
+        <small *ngIf="form.get('email')?.errors?.['email']">
+          Введите корректный email
+        </small>
+      </div>
+    </div>
+    <div class="form-control">
+      <label for="password">Введите пароль</label>
+      <input type="password" id="password" formControlName="password" />
+      <div
+        *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+        class="validation"
+      >
+        <small *ngIf="form.get('password')?.errors?.['required']">
+          Поле пароль не может быть пустым
+        </small>
+        <small *ngIf="form.get('password')?.errors?.['minlength']">
+          Пароль должен быть не менее
+          {{form.get('password')?.errors?.['minlength'].requiredLength}}
+          символов. Сейчас пароль
+          {{form.get('password')?.errors?.['minlength'].actualLength}}
+          {{ getSymbolLabel(form.get('password')?.errors?.['minlength'].actualLength)
+
+
+          }}.
+        </small>
+      </div>
+    </div>
+  </div>
+  <small class="error" *ngIf="authService.error$ | async as error">{{
+    error
+  }}</small>
+  <div class="buttons">
+    <button class="btn" type="submit" [disabled]="form.invalid || submitted">
+      Регистрация
+    </button>
+    <button class="btn-second" type="button" routerLink="/login">
+      Войти в аккаунт
+    </button>
+  </div>
+</form>

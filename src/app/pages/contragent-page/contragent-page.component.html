@@ -1,0 +1,164 @@
+<div class="modal">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <header>
+      <app-cross (click)="closeModal()"></app-cross>
+    </header>
+    <div class="modal-title">
+      <div *ngIf="companyImg; else defaultIcon" class="title-img">
+        <div class="img-box">
+          <img [src]="companyImg" alt="logo" />
+        </div>
+      </div>
+      <ng-template #defaultIcon>
+        <app-company class="title-img"></app-company>
+      </ng-template>
+      <div>
+        <input
+          type="text"
+          class="title"
+          placeholder="Название компании"
+          formControlName="name"
+        />
+        <div
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+          class="validation"
+        >
+          <small>Поле не может быть пустым</small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-item">
+        <p>Сфера</p>
+        <input
+          type="text"
+          placeholder="Сфера деятельности"
+          formControlName="activity"
+        />
+        <div
+          *ngIf="form.get('activity')?.invalid && form.get('activity')?.touched"
+          class="validation"
+        >
+          <small>Поле не может быть пустым</small>
+        </div>
+      </div>
+      <div class="modal-item">
+        <p>Статус</p>
+        <div class="select-box">
+          <select formControlName="status">
+            <option value="partner">Партнер</option>
+            <option value="client">Клиент</option>
+            <option value="stopped">Прекратили сотрудничество</option>
+            <option value="negotiation">Переговоры</option>
+          </select>
+          <app-arrow-down
+            [width]="'16'"
+            [height]="'16'"
+            class="select-box-icon"
+          ></app-arrow-down>
+        </div>
+        <div
+          *ngIf="form.get('status')?.invalid && form.get('status')?.touched"
+          class="validation"
+        >
+          <small>Пожалуйста, выберите статус</small>
+        </div>
+      </div>
+      <div class="modal-item">
+        <div class="box-title">
+          <span>Менеджер</span>
+          <div>
+            <app-plus (click)="isSelectOpen = !isSelectOpen"></app-plus>
+            <ng-container *ngIf="isSelectOpen">
+              <div class="options">
+                <div
+                  class="option"
+                  *ngFor="let manager of managers"
+                  (click)="selectManager(manager)"
+                >
+                  {{ manager.name }} {{ manager.surname }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="managers" *ngIf="selectedManagers.length > 0">
+          <div *ngFor="let selectedManager of selectedManagers" class="profile-item">
+            <div class="img-box profile-item-avatar">
+              <img [src]="selectedManager.img" alt="avatar" />
+            </div>
+            <p>
+              {{ selectedManager.name }}
+              {{ selectedManager.surname | slice : 0 : 1 }}.
+            </p>
+            <app-cross (click)="removeManager(selectedManager)"></app-cross>
+          </div>
+        </div>
+      </div>
+      <h2>Контакты</h2>
+      <div class="modal-content">
+        <div class="modal-item">
+          <p>Email</p>
+          <input
+            type="email"
+            placeholder="mail@test.ru"
+            formControlName="email"
+          />
+          <div
+            *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+            class="validation"
+          >
+            <small *ngIf="form.get('email')?.errors?.['required']"
+              >Поле email не может быть пустым</small
+            >
+            <small *ngIf="form.get('email')?.errors?.['email']"
+              >Введите корректный адрес электронной почты</small
+            >
+          </div>
+        </div>
+        <div class="modal-item">
+          <p>Телефон</p>
+          <input
+            type="tel"
+            placeholder="+7 (232) 343 22 33"
+            formControlName="phone"
+          />
+          <div
+            *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched"
+            class="validation"
+          >
+            <small>Поле телефон не может быть пустым</small>
+          </div>
+        </div>
+        <div class="modal-item">
+          <p>Сайт</p>
+          <input type="text" placeholder="example.ru" formControlName="site" />
+          <div
+            *ngIf="form.get('site')?.invalid && form.get('site')?.touched"
+            class="validation"
+          >
+            <small>Поле сайт не может быть пустым</small>
+          </div>
+        </div>
+        <div class="modal-item">
+          <p>Адрес</p>
+          <input type="text" placeholder="Адрес" formControlName="address" />
+          <div
+            *ngIf="form.get('address')?.invalid && form.get('address')?.touched"
+            class="validation"
+          >
+            <small>Поле не может быть пустым</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-btn-box">
+        <button type="button" class="btn" (click)="closeModal()">
+          Отменить
+        </button>
+        <button type="submit" class="btn" [disabled]="form.invalid">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

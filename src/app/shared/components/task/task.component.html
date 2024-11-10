@@ -1,0 +1,32 @@
+<div class="task">
+  <div class="task-container-left">
+    <label (click)="onCheck($event)">
+      <input
+        type="checkbox"
+        [(ngModel)]="task.completed"
+        class="task-checkbox"
+      />
+      <span class="task-custom-checkbox"></span>
+    </label>
+    <div class="task-description">
+      <p>{{ task.title }}</p>
+      <span>{{ task.subtitle }}</span>
+    </div>
+  </div>
+  <div class="task-container-right">
+    <div class="task-date">
+      <span>{{ task.date | formatDate }}</span>
+    </div>
+    <div class="img-box">
+      <img
+        *ngIf="task.img; else defaultIcon"
+        src="{{ task.img }}"
+        alt="avatar"
+      />
+      <ng-template #defaultIcon>
+        <div class="no-img"></div>
+      </ng-template>
+    </div>
+    <app-card-component (click)="onRemove($event)"></app-card-component>
+  </div>
+</div>

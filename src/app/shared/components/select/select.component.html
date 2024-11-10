@@ -1,0 +1,13 @@
+<div class="select" [ngClass]="{'active' : isOpen}" (click)="toggleDropdown()">
+  {{ selectedOption || title }}
+  <app-arrow-down></app-arrow-down>
+</div>
+<div class="options" *ngIf="isOpen">
+  <div
+    class="option"
+    *ngFor="let option of options"
+    (click)="selectOption(option)"
+  >
+    {{ option }}
+  </div>
+</div>

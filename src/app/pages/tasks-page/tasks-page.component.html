@@ -1,0 +1,23 @@
+<div class="navbar">
+  <app-select-component
+    title="Все задачи"
+    [options]="['Все задачи', 'Сегодня', 'Завтра', 'Неделя']"
+    (optionSelected)="onFilterChange($event)"
+  ></app-select-component>
+  <button class="btn" [routerLink]="['/tasks', 'task']">&plus; Задача</button>
+</div>
+<div class="content">
+  <router-outlet></router-outlet>
+  <ng-container *ngIf="tasks$ | async as tasks">
+    <app-task
+      *ngFor="
+        let task of tasks
+          | filter : searchText : ['title', 'subtitle']
+          | filterTasks : selectedFilter
+      "
+      [task]="task"
+      (remove)="onRemove($event)"
+      (click)="onNavigate(task.id!)"
+    ></app-task>
+  </ng-container>
+</div>

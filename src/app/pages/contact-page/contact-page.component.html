@@ -1,0 +1,215 @@
+<div class="modal">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <header>
+      <app-cross (click)="closeModal()"></app-cross>
+    </header>
+    <div class="modal-title">
+      <div *ngIf="contactImg; else defaultIcon" class="title-img">
+        <div class="img-box">
+          <img [src]="contactImg" alt="logo" />
+        </div>
+      </div>
+      <ng-template #defaultIcon>
+        <div class="no-img"></div>
+      </ng-template>
+      <div>
+        <h3 *ngIf="contactData">{{ contactData }}</h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-item">
+        <p>Имя</p>
+        <input type="text" placeholder="Имя" formControlName="name" />
+        <div
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+          class="validation"
+        >
+          <small>Поле не может быть пустым</small>
+        </div>
+      </div>
+      <div class="modal-item">
+        <p>Отчество</p>
+        <input
+          type="text"
+          placeholder="Отчество"
+          formControlName="patronymic"
+        />
+      </div>
+      <div class="modal-item">
+        <p>Фамилия</p>
+        <input type="text" placeholder="Фамилия" formControlName="surname" />
+        <div
+          *ngIf="form.get('surname')?.invalid && form.get('surname')?.touched"
+          class="validation"
+        >
+          <small>Поле не может быть пустым</small>
+        </div>
+      </div>
+      <div class="modal-item">
+        <p>Должность</p>
+        <div class="select-box">
+          <select formControlName="jobTitle">
+            <option value="CEO">CEO</option>
+            <option value="manager">Менеджер</option>
+            <option value="SMM">SMM</option>
+          </select>
+          <app-arrow-down
+            [width]="'16'"
+            [height]="'16'"
+            class="select-box-icon"
+          ></app-arrow-down>
+        </div>
+        <div
+          *ngIf="form.get('jobTitle')?.invalid && form.get('jobTitle')?.touched"
+          class="validation"
+        >
+          <small>Пожалуйста, выберите должность</small>
+        </div>
+      </div>
+      <div class="modal-item">
+        <div class="box-title">
+          <span>Компания</span>
+          <div>
+            <app-plus
+              (click)="isCompanySelectOpen = !isCompanySelectOpen"
+            ></app-plus>
+            <ng-container *ngIf="isCompanySelectOpen">
+              <div class="options">
+                <span>Недавние</span>
+                <div
+                  class="option"
+                  *ngFor="let company of companies"
+                  (click)="selectCompany(company)"
+                >
+                  {{ company.name }}
+                </div>
+                <div class="select-btn" (click)="onNavigate()">
+                  <p>&plus; Добавить компанию</p>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="companies" *ngIf="selectedCompanies.length > 0">
+          <div *ngFor="let company of selectedCompanies" class="profile-item">
+            <div class="img-box profile-item-avatar">
+              <img [src]="company.img" alt="logo" />
+            </div>
+            <p>{{ company.name }}</p>
+            <app-cross (click)="removeCompany(company)"></app-cross>
+          </div>
+        </div>
+      </div>
+      <div class="modal-item">
+        <div class="box-title">
+          <span>Менеджер</span>
+          <div>
+            <app-plus (click)="isSelectOpen = !isSelectOpen"></app-plus>
+            <ng-container *ngIf="isSelectOpen">
+              <div class="options">
+                <div
+                  class="option"
+                  *ngFor="let manager of managers"
+                  (click)="selectedManager(manager)"
+                >
+                  {{ manager.name }} {{ manager.surname }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="managers" *ngIf="selectedManagers.length > 0">
+          <div
+            *ngFor="let selectedManager of selectedManagers"
+            class="profile-item"
+          >
+            <div class="img-box profile-item-avatar">
+              <img [src]="selectedManager.img" alt="avatar" />
+            </div>
+            <p>
+              {{ selectedManager.name }}
+              {{ selectedManager.surname | slice : 0 : 1 }}.
+            </p>
+            <app-cross (click)="removeManager(selectedManager)"></app-cross>
+          </div>
+        </div>
+      </div>
+      <h2>Контакты</h2>
+      <div class="modal-content">
+        <div class="modal-item">
+          <p>Email</p>
+          <input
+            type="email"
+            placeholder="mail@test.ru"
+            formControlName="email"
+          />
+          <div
+            *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+            class="validation"
+          >
+            <small *ngIf="form.get('email')?.errors?.['required']"
+              >Поле email не может быть пустым</small
+            >
+            <small *ngIf="form.get('email')?.errors?.['email']"
+              >Введите корректный адрес электронной почты</small
+            >
+          </div>
+        </div>
+        <div class="modal-item">
+          <p>Телефон</p>
+          <input
+            type="tel"
+            placeholder="+7 (232) 343 22 33"
+            formControlName="phone"
+          />
+          <div
+            *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched"
+            class="validation"
+          >
+            <small>Поле телефон не может быть пустым</small>
+          </div>
+        </div>
+        <div class="modal-item">
+          <p>Telegram</p>
+          <input
+            type="text"
+            placeholder="https://web.telegram"
+            formControlName="telegram"
+          />
+          <div
+            *ngIf="
+              form.get('telegram')?.invalid && form.get('telegram')?.touched
+            "
+            class="validation"
+          >
+            <small>Поле telegram не может быть пустым</small>
+          </div>
+        </div>
+        <div class="modal-item">
+          <p>Facebook</p>
+          <input
+            type="text"
+            placeholder="https://www.facebook.com"
+            formControlName="facebook"
+          />
+          <div
+            *ngIf="
+              form.get('facebook')?.invalid && form.get('facebook')?.touched
+            "
+            class="validation"
+          >
+            <small>Поле facebook не может быть пустым</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-btn-box">
+        <button type="button" class="btn" (click)="closeModal()">
+          Отменить
+        </button>
+        <button type="submit" class="btn" [disabled]="form.invalid">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

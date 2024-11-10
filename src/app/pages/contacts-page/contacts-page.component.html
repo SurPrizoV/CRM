@@ -1,0 +1,65 @@
+<div class="navbar">
+  <div class="title">
+    <p>Контакты</p>
+  </div>
+  <button class="btn" [routerLink]="['/contacts', 'contact']">
+    &plus; Добавить
+  </button>
+</div>
+<div class="content">
+  <router-outlet></router-outlet>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th><span>Имя</span></th>
+          <th>Должность</th>
+          <th>Компания</th>
+          <th>Email</th>
+          <th>Телефон</th>
+          <th>Telegram</th>
+          <th>Facebook</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="contacts$ | async as contacts">
+          <tr
+            style="cursor: pointer"
+            *ngFor="
+              let contact of contacts
+                | filter : searchText : ['name', 'surname']
+            "
+            (click)="onNavigate(contact.id!)"
+          >
+            <td>
+              <div>
+                <ng-container *ngIf="contact?.img; else noImage">
+                  <div class="img-box">
+                    <img [src]="contact.img" alt="contact_icon" />
+                  </div>
+                </ng-container>
+                <ng-template #noImage>
+                  <div class="no-img"></div>
+                </ng-template>
+              </div>
+              {{ contact.name }} {{ contact.surname }}
+            </td>
+            <td>{{ jobTitleMap[contact.jobTitle] }}</td>
+            <td>
+              <ng-container
+                *ngFor="let company of contact.companies; let i = index"
+              >
+                {{ company.name }}
+                <span *ngIf="i < contact.companies.length - 1">, </span>
+              </ng-container>
+            </td>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.telegram }}</td>
+            <td>{{ contact.facebook }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

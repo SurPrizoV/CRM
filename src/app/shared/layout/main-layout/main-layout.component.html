@@ -1,0 +1,45 @@
+<header>
+  <a routerLink="/" class="logo"> CRM System </a>
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Add or search..."
+      [(ngModel)]="searchText"
+      (keyup)="updateSearchText()"
+    />
+  </div>
+  <app-avatar-modal></app-avatar-modal>
+</header>
+<div class="container">
+  <ul class="side-menu">
+    <li
+      [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/">Главная</a>
+    </li>
+    <li [routerLinkActive]="['active']"><a routerLink="/leads">Лиды</a></li>
+    <li [routerLinkActive]="['active']">
+      <a routerLink="/contragents">Контрагенты</a>
+    </li>
+    <li [routerLinkActive]="['active']">
+      <a routerLink="/tasks">Задачи</a>
+      <small>{{ (tasks$ | async)?.length }}</small>
+    </li>
+    <li [routerLinkActive]="['active']">
+      <a routerLink="/store">Услуги и товары</a>
+    </li>
+    <li [routerLinkActive]="['active']">
+      <a routerLink="/contacts">Контакты</a>
+    </li>
+    <li [routerLinkActive]="['active']">
+      <a routerLink="/calendar">Календарь событий</a>
+    </li>
+    <li [routerLinkActive]="['active']">
+      <a routerLink="/settings">Настройки</a>
+    </li>
+  </ul>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

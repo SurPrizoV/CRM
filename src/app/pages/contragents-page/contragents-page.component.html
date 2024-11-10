@@ -1,0 +1,66 @@
+<div class="navbar">
+  <div class="title">
+    <p>Все компании</p>
+    <small>{{ (companies$ | async)?.length }}</small>
+  </div>
+  <button class="btn" [routerLink]="['/contragents', 'contragent']">
+    &plus; Добавить
+  </button>
+</div>
+<div class="content">
+  <router-outlet></router-outlet>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th><app-square></app-square> <span>Компания</span></th>
+          <th>Сфера</th>
+          <th>Статус</th>
+          <th>Менеджер</th>
+          <th>Email</th>
+          <th>Телефон</th>
+          <th>Сайт</th>
+          <th>Адрес</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="companies$ | async as companies">
+          <tr
+            style="cursor: pointer"
+            *ngFor="let company of companies | filter : searchText : ['name']"
+            (click)="onNavigate(company.id!)"
+          >
+            <td>
+              <div>
+                <app-square></app-square>
+                <ng-container *ngIf="company?.img; else noImage">
+                  <div class="img-box">
+                    <img [src]="company.img" alt="company_icon" />
+                  </div>
+                </ng-container>
+                <ng-template #noImage>
+                  <app-company></app-company>
+                </ng-template>
+              </div>
+              {{ company.name }}
+            </td>
+            <td>{{ company.activity }}</td>
+            <td>{{ statusMap[company.status] }}</td>
+            <td>
+              <ng-container
+                *ngFor="let manager of company.managers; let i = index"
+              >
+                {{ manager.name }} {{ manager.surname }}
+                <span *ngIf="i < company.managers.length - 1">, </span>
+              </ng-container>
+            </td>
+            <td>{{ company.email }}</td>
+            <td>{{ company.phone }}</td>
+            <td>{{ company.site }}</td>
+            <td>{{ company.address }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

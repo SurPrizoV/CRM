@@ -1,0 +1,28 @@
+<div class="img-box avatar" (click)="toggleModalOpen()">
+  <img
+    *ngIf="currentUser; else defaultIcon"
+    [src]="currentUser.img"
+    alt="avatar"
+  />
+  <ng-template #defaultIcon>
+    <div class="no-img"></div>
+  </ng-template>
+</div>
+<div class="avatar-modal" *ngIf="isOpen">
+  <div class="user-list">
+    <div *ngFor="let manager of managers" class="user-list-item">
+      <div class="img-box user-list-item-avatar">
+        <img [src]="manager.img" alt="avatar" />
+      </div>
+      <div class="user-list-item-description">
+        <span *ngIf="manager.id === currentUser?.id">Активный</span>
+        <p>{{ manager.name }} {{ manager.surname | slice : 0 : 1 }}.</p>
+      </div>
+      <div *ngIf="manager.id === currentUser?.id" class="online">
+        <app-tick></app-tick>
+      </div>
+    </div>
+  </div>
+  <button class="btn" (click)="logup()">Добавить аккаунт</button>
+  <button class="btn" (click)="logout()">Выйти</button>
+</div>

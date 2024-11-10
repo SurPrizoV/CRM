@@ -1,0 +1,14 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  p {
+    font-size: 64px;
+    font-weight: 900;
+  }
+  button {
+    margin-top: 8px;
+  }
+}

@@ -1,0 +1,27 @@
+.modal {
+  & h2 {
+    padding-top: 28px;
+  }
+  & h3 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+
+.options {
+  right: 40px;
+  background: #f2f2f2;
+  & span {
+    padding: 8px 16px;
+    display: inline-block;
+  }
+}
+
+.select-btn {
+  cursor: pointer;
+  padding: 18px;
+  border-top: 1px solid #e0e0e0;
+  &:hover {
+    background: #e0e0e0;
+  }
+}
