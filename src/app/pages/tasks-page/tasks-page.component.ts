@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Task } from '../../shared/interfaces';
 import { TasksService } from '../../shared/services/tasks.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SearchService } from '../../shared/services/search.service';
 import { CommonModule } from '@angular/common';
@@ -40,6 +40,7 @@ export class TasksPageComponent implements OnInit {
   searchText: string = '';
   selectedFilter: string = 'Все задачи';
   tasks$!: Observable<Task[]>;
+  tSub!: Subscription;
 
   constructor(
     private router: Router,
